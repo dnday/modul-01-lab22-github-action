@@ -60,5 +60,7 @@ jobs:
             fi
 
             echo "Install Package dan Build Project"
-            npm install
+            rm -rf "$PROJECT_DIR/node_modules" "$PROJECT_DIR/.next" "$PROJECT_DIR/out"
+            npm cache clean --force
+            npm ci --no-audit --no-fund
             npm run build
