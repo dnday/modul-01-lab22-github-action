@@ -53,7 +53,7 @@ jobs:
               {
                 echo "Repository sudah ada. Building...";
                 cd ~/senpro/533842/modul02/se3npro-github-action;
-                git restore .;p
+                git restore .;
                 git pull origin main;
                 echo " Install Package dan Build Project";
                 npm install;
