@@ -1,5 +1,6 @@
 name: Test, Build, and Deploy | Modul 01 - Lab 2.2 Senior Project
 # This workflow will test, build, and deploy the project to the server when a push is made to the main branch.
+# This workflow will test, build, and deploy the project to the server when a push is made to the main branch.
 on: 
   push:
     branches: [main]
