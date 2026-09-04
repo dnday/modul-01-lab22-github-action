@@ -39,24 +39,26 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            set -e
             eval "$(ssh-agent -s)"
             ssh-add ~/.ssh/ssh-praktikan4
-            echo "Cek folder project";
-            [ ! -d "${HOME}/senpro/533842/modul02/modul-01-lab22-github-action/" ] &&
-              {
-                echo "Repository belum di-clone. Cloning...";
-                mkdir -p ~/senpro/533842/modul02;
-                git clone https://github.com/dnday/modul-01-lab22-github-action;
-                echo " Install Package dan Build Project";
-                npm instal;
-                npm run build;
-              } ||
-              {
-                echo "Repository sudah ada. Building...";
-                cd ~/senpro/533842/modul02/modul-01-lab22-github-action;
-                git restore .;
-                git pull origin main;
-                echo " Install Package dan Build Project";
-                npm install;
-                npm run build;
-              }
+            PROJECT_DIR="${HOME}/senpro/533842/modul02/modul-01-lab22-github-action"
+            REPOSITORY="git@github.com:dnday/modul-01-lab22-github-action.git"
+
+            echo "Cek folder project"
+            mkdir -p "${HOME}/senpro/533842/modul02"
+            if [ -d "$PROJECT_DIR/.git" ]; then
+              echo "Repository sudah ada. Building..."
+              cd "$PROJECT_DIR"
+              git restore .
+              git pull --ff-only origin main
+            else
+              echo "Repository belum di-clone. Cloning..."
+              rm -rf "$PROJECT_DIR"
+              git clone "$REPOSITORY" "$PROJECT_DIR"
+              cd "$PROJECT_DIR"
+            fi
+
+            echo "Install Package dan Build Project"
+            npm install
+            npm run build
